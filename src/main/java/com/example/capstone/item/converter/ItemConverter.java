@@ -2,6 +2,8 @@ package com.example.capstone.item.converter;
 
 import com.example.capstone.item.Category;
 import com.example.capstone.item.Item;
+import com.example.capstone.item.ItemImage;
+import com.example.capstone.item.common.ImageType;
 import com.example.capstone.item.common.ItemType;
 import com.example.capstone.item.dto.ItemRequestDTO;
 import com.example.capstone.item.dto.ItemResponseDTO;
@@ -72,9 +74,7 @@ public class ItemConverter {
     }
 
     /**
-     *
      * 임시처리로 하드코딩 되어 있으므로 추후에 수정 되어야 함!
-     *
      */
     public static ItemResponseDTO.DetailsOfItem toDetailsOfItemResponseDTO(Item item) {
         return ItemResponseDTO.DetailsOfItem.builder()
@@ -86,9 +86,20 @@ public class ItemConverter {
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
                 .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
-                .imageUrl(toItemImageList(item.getItemImages()))
+                .imageUrl(toItemImageList(filterCommonImage(item.getItemImages())))
                 .deadline(item.getDeadline())
                 .build();
+    }
+
+    /**
+     * ImageType.COMMON인 ItemImage만 filter하는 메소드
+     * @param itemImageList
+     * @return
+     */
+    private static List<ItemImage> filterCommonImage(List<ItemImage> itemImageList) {
+        return itemImageList.stream()
+                .filter(i -> i.getImageType().equals(ImageType.COMMON))
+                .collect(Collectors.toList());
     }
 
     public static ItemResponseDTO.DetailsOfItem toTempDetailsOfItemResponseDTO(Item item) {
@@ -101,7 +112,7 @@ public class ItemConverter {
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
                 .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
-                .imageUrl(toItemImageList(item.getItemImages()))
+                .imageUrl(toItemImageList(filterCommonImage(item.getItemImages())))
                 .deadline(item.getDeadline())
                 .build();
     }
@@ -116,7 +127,7 @@ public class ItemConverter {
                 .price(item.getPrice())
                 .discountPrice(0)   // TODO: 할인 어떻게?
                 .ItemDetailsImageUrl(item.getItemDetailsImageUrl())
-                .imageUrl(toItemImageList(item.getItemImages()))
+                .imageUrl(toItemImageList(filterCommonImage(item.getItemImages())))
                 .deadline(item.getDeadline())
                 .build();
     }

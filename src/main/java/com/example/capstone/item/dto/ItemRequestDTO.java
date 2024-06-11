@@ -43,11 +43,13 @@ public class ItemRequestDTO {
         @NotNull(message = "공동 구매 여부는 필수입니다. (false = 일반 상품, true = 공동구매 상품)")
         private Boolean isGroupPurchase;
 
-        @Min(value = 1, message = "공동 구매 목표 인원은 1명 이상입니다.")
-        private Integer targetQuantity;
+        @Nullable @Min(value = 1, message = "공동 구매 목표 인원은 1명 이상입니다.")
+        @Builder.Default
+        private Integer targetQuantity = 1;
 
-        @Min(value = 0, message = "상품 가격은 0원 이상입니다")
-        private Integer groupPurchasePrice;
+        @Nullable @Min(value = 0, message = "상품 가격은 0원 이상입니다")
+        @Builder.Default
+        private Integer groupPurchasePrice = 0;
 
         @Nullable
         private List<OrderedMultipartFileDTO> itemImages = new ArrayList<>();
